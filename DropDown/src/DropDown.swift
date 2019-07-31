@@ -148,7 +148,7 @@ public final class DropDown: UIView {
 
 	Defaults to `anchorView.bounds.width - offset.x`.
 	*/
-	public var width: CGFloat? {
+	public var frameWidth: CGFloat? {
 		didSet { setNeedsUpdateConstraints() }
 	}
 
@@ -661,7 +661,7 @@ extension DropDown {
 
 			guard isRightBarButtonItem else { break barButtonItemCondition }
 
-			let width = self.width ?? fittingWidth()
+			let width = self.frameWidth ?? fittingWidth()
 			let anchorViewWidth = anchorView.plainView.frame.width
 			let x = -(width - anchorViewWidth)
 
@@ -706,7 +706,7 @@ extension DropDown {
 	fileprivate func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
 		var offscreenHeight: CGFloat = 0
 		
-		let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
+		let width = self.frameWidth ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
 		
 		let anchorViewX = anchorView?.plainView.windowFrame?.minX ?? window.frame.midX - (width / 2)
 		let anchorViewY = anchorView?.plainView.windowFrame?.minY ?? window.frame.midY - (tableHeight / 2)
@@ -745,7 +745,7 @@ extension DropDown {
 			y = windowY
 		}
 		
-		let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - topOffset.x
+		let width = self.frameWidth ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - topOffset.x
 		
 		return (x, y, width, offscreenHeight)
 	}
@@ -788,7 +788,7 @@ extension DropDown {
 	}
 	
 	fileprivate func constraintWidthToFittingSizeIfNecessary(layout: inout ComputeLayoutTuple) {
-		guard width == nil else { return }
+		guard frameWidth == nil else { return }
 		
 		if layout.width < fittingWidth() {
 			layout.width = fittingWidth()
