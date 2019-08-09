@@ -32,7 +32,11 @@ internal struct DPDConstant {
 		static let SeparatorColor = UIColor.clear
 		static let CornerRadius: CGFloat = 2
 		static let RowHeight: CGFloat = 44
-		static let HeightPadding: CGFloat = 20
+		static var HeightPadding: CGFloat {
+            var safeEdgeInsets = DDSafeAreaInsets
+            if !UIApplication.shared.isStatusBarHidden, safeEdgeInsets.top == 0 { safeEdgeInsets.top = 20 }
+            return safeEdgeInsets.top
+        }
 
 		struct Shadow {
 

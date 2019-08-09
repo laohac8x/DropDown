@@ -139,7 +139,7 @@ public final class DropDown: UIView {
     The offset from the bottom of the window when the drop down is shown below the anchor view.
     DropDown applies this offset only if keyboard is hidden.
     */
-    public var offsetFromWindowBottom = CGFloat(0) {
+    public var offsetFromWindowBottom = CGFloat(DDSafeAreaInsets.bottom) {
         didSet { setNeedsUpdateConstraints() }
     }
     
@@ -1193,4 +1193,17 @@ private extension DispatchQueue {
 			main.async(execute: closure)
 		}
 	}
+}
+
+internal var DDSafeAreaInsets: UIEdgeInsets {
+    if #available(iOS 11.0, *) {
+        return UIApplication.shared.windows.first?.safeAreaInsets ?? UIEdgeInsets.zero
+    } else {
+        var layoutMargins = UIApplication.shared.windows.first?.layoutMargins ?? UIEdgeInsets.zero
+        layoutMargins.top -= (layoutMargins.left + layoutMargins.right) / 2
+        layoutMargins.bottom -= (layoutMargins.left + layoutMargins.right) / 2
+        layoutMargins.left = 0
+        layoutMargins.right = 0
+        return layoutMargins
+    }
 }
